@@ -8,10 +8,13 @@ from tkinter import filedialog as fd
 import tkinter as tk
 from tkinter import Button, ttk
 from selenium import webdriver
+
+from function_get_google_detail import get_details
 cl = None
 root = Tk()
 Url=Variable()
 
+# def get_place_detail(placename):
 
 def scrape_discotech():
     driver = webdriver.Chrome('chromedriver.exe') 
@@ -56,11 +59,11 @@ def scrapr_details():
         cityname = driver.find_elements(By.CSS_SELECTOR,".col-sm-8.form-group")[0].find_elements(By.TAG_NAME,'a')[1].text
         eventstartdate = driver.find_elements(By.CSS_SELECTOR,".col-sm-8.form-group")[0].find_element(By.TAG_NAME,'h4').text
         try:
-            eventDescripton = driver.find_elements(By.CSS_SELECTOR,".card.form-group.clearfix")[1].text
+            eventDescripton = driver.find_elements(By.CSS_SELECTOR,".card.form-group.clearfix").text
         except:
             eventDescripton = ''
         eventInfo = {
-        'eventimage': eventimage,
+        'eventimage': link + " "+eventimage,
         'eventtitle': eventtitle,
         'placename': placename,
         'cityname': cityname,
@@ -71,15 +74,26 @@ def scrapr_details():
         
     len(eventsInfo)
 
-    outfile2 = open('./dis-events-final.csv','w')
+    outfile2 = open(f'./{str(Url.get()).split("/")[-2]}.csv','w')
     writer=csv.writer(outfile2)
     writer.writerow(['eventimage', 'eventtitle','placename',  'cityname','eventstartdate', 'eventDescripton' ])
     for eve in eventsInfo:
         writer.writerow(eve)
     import pandas as pd  
     csvdata = pd.DataFrame(eventsInfo) 
-    csvdata.to_csv(r'dis-events-final.csv') 
-    
+    csvdata.to_csv(f'{str(Url.get()).split("/")[-2]}.csv') 
+    place_add=[]
+    place_type=[]
+    for i in placename:
+        place_d=get_details(i)
+        place_add.append(place_d["Address"])
+        place_type.append(place_d["Types"])
+    df_detail=pd.DataFrame({
+        "PlaceName":placename,
+        "Address":place_add,
+        "PlaceType":place_type
+    })
+    df_detail.to_csv(f'{str(Url.get()).split("/")[-2]}_places.csv')
 def select_file():
     global f
     filename = fd.askopenfilename(

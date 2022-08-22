@@ -249,8 +249,7 @@ df={"TotalBusyHour": populartimes or "",
 print(df)
 
 base_url='http://scouterlive.us-east-1.elasticbeanstalk.com'
-
 insert=requests.post(f'{base_url}/api/v1/Place/MultiPartInsert',json=json.dumps(df))
-print(insert.status_code)
+print(insert)
 
 
