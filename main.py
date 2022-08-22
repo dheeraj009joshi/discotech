@@ -91,6 +91,7 @@ def scrapr_details():
     place_add=[]
     place_type=[]
     for i in placename:
+        print(f'getting info for : {i}')
         place_d=get_details(i)
         place_add.append(place_d["Address"])
         place_type.append(place_d["Types"])
