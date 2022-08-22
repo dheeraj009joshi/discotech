@@ -17,7 +17,10 @@ Url=Variable()
 # def get_place_detail(placename):
 
 def scrape_discotech():
-    driver = webdriver.Chrome('chromedriver.exe') 
+    try:
+        driver = webdriver.Chrome('chromedriver.exe') 
+    except:
+        driver = webdriver.Chrome('chromedriver') 
     driver.maximize_window()
     driver.get(f'{Url.get()}')
     venues = driver.find_elements(By.CSS_SELECTOR,".thumbnail.venue-tile.card.hoverable")
