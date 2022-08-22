@@ -52,7 +52,10 @@ def scrapr_details():
             eventslinks.append(row[1])
         print(f'Processed {len(eventslinks)} lines.')
 
-    driver = webdriver.Chrome(r'chromedriver.exe') 
+    try:
+        driver = webdriver.Chrome('chromedriver.exe') 
+    except:
+        driver = webdriver.Chrome('chromedriver')
     eventsInfo = []
     for link in eventslinks:
         driver.get(link)
