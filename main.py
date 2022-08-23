@@ -42,7 +42,7 @@ def scrape_discotech():
     df=pd.DataFrame({
         "urls":venueLinks
     })
-    df.to_csv(str(Url.get()).split("/")[-2]+".csv")
+    df.to_csv(str(Url.get()).split("/")[-2]+"_urls.csv")
 def scrapr_details():
     eventslinks = []
     with open(f"{f}") as csv_file:
@@ -69,12 +69,12 @@ def scrapr_details():
         except:
             eventDescripton = ''
         eventInfo = {
-        'eventimage': link + " "+eventimage,
+        'eventimage': eventimage,
         'eventtitle': eventtitle,
         'placename': placename,
         'cityname': cityname,
         'eventstartdate': eventstartdate,
-        'eventDescripton': eventDescripton
+        'eventDescripton':link +" " +eventDescripton
         }
         eventsInfo.append(eventInfo)
         
