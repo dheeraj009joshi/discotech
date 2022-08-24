@@ -90,17 +90,25 @@ def scrapr_details():
     csvdata.to_csv(f'{str(Url.get()).split("/")[-2]}.csv') 
     place_add=[]
     place_type=[]
-    for i in placename:
-        print(f'getting info for : {i}')
-        place_d=get_details(i)
-        place_add.append(place_d["Address"])
-        place_type.append(place_d["Types"])
-    df_detail=pd.DataFrame({
-        "PlaceName":placename,
-        "Address":place_add,
-        "PlaceType":place_type
-    })
-    df_detail.to_csv(f'{str(Url.get()).split("/")[-2]}_places.csv')
+    with open(f'{str(Url.get()).split("/")[-2]}.csv') as csv_file:
+        csv_reader=csv.reader(csv_file)
+        next(csv_reader, None)
+        for i in csv_reader:
+            print(f'getting info for : {i[2]}')
+            try:
+                place_d=get_details(i)
+                place_add.append(place_d["Address"])
+                place_type.append(place_d["Types"])
+            except:
+                place_add.append("")
+                place_type.append("")
+
+        df_detail=pd.DataFrame({
+            "PlaceName":placename,
+            "Address":place_add,
+            "PlaceType":place_type
+        })
+        df_detail.to_csv(f'{str(Url.get()).split("/")[-2]}_places.csv')
 def select_file():
     global f
     filename = fd.askopenfilename(

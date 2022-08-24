@@ -213,8 +213,6 @@ def get_details(placename):
     neighborhood = index_get(info,14) or ""
     vibe = index_get(info,100)
     avgTimeSpent = index_get(info,117,0) or ""
-    zipcode =str(address).split(",")[-2].split(" ")[-1] or ""
-    print(zipcode)
     if priceRange == 4:
         priceRange = '$$$$'
     elif priceRange == 3:
@@ -244,7 +242,6 @@ def get_details(placename):
         "TimeZone": timeZone,
         "Neighborhood" : neighborhood,
         "AverageTimeSpent":avgTimeSpent,
-        "ZipCode": zipcode
         }
 
     return df
